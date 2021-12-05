@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace AoC2021;
+﻿namespace AoC2021;
 
 public static class Day4
 {
