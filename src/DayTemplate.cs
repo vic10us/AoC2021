@@ -1,4 +1,7 @@
-﻿namespace AoC2021;
+﻿using System;
+using System.Threading.Tasks;
+
+namespace AoC2021;
 
 public static class Day
 {

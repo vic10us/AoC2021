@@ -140,7 +140,7 @@ public static class Day5
 
     public static async Task Run()
     {
-        Console.WriteLine("Advent of Code 2021, Day 4!");
+        Console.WriteLine("Advent of Code 2021, Day 5!");
         lines = ParseInput($"Resources/{nameof(Day5)}.txt");
         await PartOne();
         await PartTwo();
