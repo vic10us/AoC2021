@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace AoC2021;
@@ -87,19 +88,147 @@ public static class Day8
                 var match = codex.FirstOrDefault(c => string.Concat(c.Value.OrderBy(v => v)) == outsort).Key;
                 numStr += match.ToString();
             }
-            int.TryParse(numStr, out var num);
+            _ = int.TryParse(numStr, out var num);
             total += num;
-            Console.WriteLine(num);
+            Console.WriteLine(RenderDigits(num, 4));
         }
 
-        Console.WriteLine($"Total of the output is: {total}");
+        Console.WriteLine(RenderCharacters($"ANSWER IS: {total}"));
 
         return Task.CompletedTask;
     }
 
+    private static readonly Dictionary<char, string[]> SegmentCharacters = new Dictionary<char, string[]>()
+    {
+        { '!', new[] {"   ", "  |", "   "} },
+        { ' ', new[] {"   ", "   ", "   "} },
+        { '"', new[] {"   ", "| |", "   "} },
+        { '#', new[] {"   ", "| |", "| |"} },
+        { '$', new[] {" _ ", "|_ ", " _ "} },
+        { '%', new[] {" _ ", "|  ", " _|"} },
+        { '&', new[] {" _ ", "|_|", "|_ "} },
+        { '\'', new[] {"   ", "|  ", "   "} },
+        { '(', new[] {" _ ", "|  ", "|_ "} },
+        { ')', new[] {" _ ", "  |", " _|"} },
+        { '*', new[] {" _ ", "|_|", "   "} },
+        { '+', new[] {"   ", "|_ ", "|  "} },
+        { ',', new[] {"   ", "   ", " _|"} },
+        { '-', new[] {"   ", " _ ", "   "} },
+        { '[', new[] {" _ ", "|  ", "|_ "} },
+        { '\\', new[] {"   ", "|_ ", "   "} },
+        { ']', new[] {" _ ", "  |", " _|"} },
+        { '^', new[] {" _ ", "| |", "   "} },
+        { '_', new[] {"   ", "   ", " _ "} },
+        { '/', new[] {"   ", " _|", "   "} },
+        { '0', new[] {" _ ", "| |", "|_|"} },
+        { '1', new[] {"   ", "  |", "  |"} },
+        { '2', new[] {" _ ", " _|", "|_ "} },
+        { '3', new[] {" _ ", " _|", " _|"} },
+        { '4', new[] {"   ", "|_|", "  |"} },
+        { '5', new[] {" _ ", "|_ ", " _|"} },
+        { '6', new[] {" _ ", "|_ ", "|_|"} },
+        { '7', new[] {" _ ", "  |", "  |"} },
+        { '8', new[] {" _ ", "|_|", "|_|"} },
+        { '9', new[] {" _ ", "|_|", " _|"} },
+        { ':', new[] {"   ", " _ ", " _ "} },
+        { ';', new[] {"   ", " _ ", " _|"} },
+        { '<', new[] {" _ ", "|_ ", "   "} },
+        { '=', new[] {" _ ", " _ ", "   "} },
+        { '>', new[] {" _ ", " _|", "   "} },
+        { '?', new[] {" _ ", " _|", "|  "} },
+        { '@', new[] {" _ ", " _|", "|_|"} },
+        { 'A', new[] {" _ ", "|_|", "| |"} },
+        { 'a', new[] {" _ ", "|_|", "| |"} },
+        { 'B', new[] {" _ ", "|_|", "|_|"} },
+        { 'b', new[] {"   ", "|_ ", "|_|"} },
+        { 'C', new[] {" _ ", "|  ", "|_ "} },
+        { 'c', new[] {"   ", " _  ", "|_ "} },
+        { 'D', new[] {" _ ", "| |", "|_|"} },
+        { 'd', new[] {"   ", " _|", "|_|"} },
+        { 'E', new[] {" _ ", "|_ ", "|_ "} },
+        { 'e', new[] {" _ ", "|_ ", "|_ "} },
+        { 'F', new[] {" _ ", "|_ ", "|  "} },
+        { 'f', new[] {" _ ", "|_ ", "|  "} },
+        { 'G', new[] {" _ ", "|  ", "|_|"} },
+        { 'g', new[] {" _ ", "|  ", "|_|"} },
+        { 'H', new[] {"   ", "|_|", "| |"} },
+        { 'h', new[] {"   ", "|_ ", "| |"} },
+        { 'I', new[] {"   ", "|  ", "|  "} },
+        { 'i', new[] {"   ", "   ", "|  "} },
+        { 'J', new[] {"   ", "  |", "|_|"} },
+        { 'j', new[] {"   ", "  |", "|_|"} },
+        { 'K', new[] {" _ ", "|_ ", "| |"} },
+        { 'k', new[] {" _ ", "|_ ", "| |"} },
+        { 'L', new[] {"   ", "|  ", "|_ "} },
+        { 'l', new[] {"   ", "|  ", "|  "} },
+        { 'M', new[] {" _ ", "   ", "| |"} },
+        { 'm', new[] {" _ ", "   ", "| |"} },
+        { 'N', new[] {" _ ", "| |", "| |"} },
+        { 'n', new[] {"   ", " _ ", "| |"} },
+        { 'O', new[] {" _ ", "| |", "|_|"} },
+        { 'o', new[] {"   ", " _ ", "|_|"} },
+        { 'P', new[] {" _ ", "|_|", "|  "} },
+        { 'p', new[] {" _ ", "|_|", "|  "} },
+        { 'Q', new[] {" _ ", "|_|", "  |"} },
+        { 'q', new[] {" _ ", "|_|", "  |"} },
+        { 'R', new[] {" _ ", "| |", "|  "} },
+        { 'r', new[] {"   ", " _ ", "|  "} },
+        { 'S', new[] {" _ ", "|_ ", " _|"} },
+        { 's', new[] {" _ ", "|_ ", " _|"} },
+        { 'T', new[] {"   ", "|_ ", "|_ "} },
+        { 't', new[] {"   ", "|_ ", "|_ "} },
+        { 'U', new[] {"   ", "| |", "|_|"} },
+        { 'u', new[] {"   ", "   ", "|_|"} },
+        { 'V', new[] {"   ", "| |", " _|"} },
+        { 'v', new[] {"   ", "| |", " _|"} },
+        { 'W', new[] {"   ", "| |", " _ "} },
+        { 'w', new[] {"   ", "| |", " _ "} },
+        { 'X', new[] {"   ", "|_|", "| |"} },
+        { 'x', new[] {"   ", "|_|", "| |"} },
+        { 'Y', new[] {"   ", "|_|", " _|"} },
+        { 'y', new[] {"   ", "|_|", " _|"} },
+        { 'Z', new[] {" _ ", " _|", " _ "} },
+        { 'z', new[] {" _ ", " _|", " _ "} },
+    };
+
+    private static string RenderCharacters(string characters)
+    {
+        return RenderCharacters(characters.Select(c => c).ToArray());
+    } 
+
+    private static string RenderCharacters(char[] characters)
+    {
+        var sb = new StringBuilder();
+        for (var r = 0; r < 3; r++)
+        {
+            for (var i = 0; i < characters.Length; i++) 
+            { 
+                var c = characters[i];
+                if (c == '.') continue;
+                sb.Append(SegmentCharacters.ContainsKey(c) ? SegmentCharacters[c][r] : SegmentCharacters['-'][r]);
+                if ((c == '!' || (i +1 < characters.Length && characters[i+1]=='.')) && r == 2) sb.Append('.');
+                else sb.Append(' ');
+            }
+            sb.AppendLine();
+        }
+        return sb.ToString();
+    }
+
+    private static string RenderDigits(int digit, int padding = 4)
+    {
+        var digitString = $"{digit}";
+        if (padding > 0 && padding > digitString.Length)
+        {
+            var p = new string(Enumerable.Range(0, padding - digitString.Length).Select(e => '0').ToArray());
+            digitString = $"{p}{digitString}";
+        }
+        var characters = digitString.Select(c => c).ToArray();
+        return RenderCharacters(characters);
+    }
+
     public static async Task Run()
     {
-        Console.WriteLine("Advent of Code 2021, Day 8!");
+        Console.WriteLine(RenderCharacters("Advent of Code 2021, Day 8!"));
         SegPairs = File.ReadLines("Resources/Day8.txt").Select(e => {
             var lr = e.Split('|');
             return new SegPair
@@ -110,6 +239,7 @@ public static class Day8
         }).ToList();
         await PartOne();
         await PartTwo();
+        Console.WriteLine(RenderCharacters("ALL DONE!"));
         Console.WriteLine("");
     }
 }
