@@ -32,7 +32,7 @@ public static class Day5
 
         public override string ToString()
         {
-            return String.Format("Point({0}, {1})", x, y);
+            return $"Point({x}, {y})";
         }
     }
 

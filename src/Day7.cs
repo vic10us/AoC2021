@@ -1,17 +1,13 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace AoC2021;
+﻿namespace AoC2021;
 
 public static class Day7
 {
-    private static int[] horizontalPositions;
+    private static int[]? horizontalPositions;
 
     private static Task PartOne()
     {
         Console.WriteLine("-- Part 1 --");
-        var min = horizontalPositions.Min();
-        var max = horizontalPositions.Max();
+        var max = horizontalPositions?.Max() ?? 0;
         var cheapeastCost = int.MaxValue;
         var cheapestPosition = int.MaxValue;
         for (var i = 0; i < max; i++)
@@ -19,7 +15,7 @@ public static class Day7
             // e = 0
             // i = 2
             // 0 - 2 = -2 (2)
-            var cost = horizontalPositions.Sum(e => Math.Abs(e-i));
+            var cost = horizontalPositions?.Sum(e => Math.Abs(e-i)) ?? 0;
             if (cost < cheapeastCost)
             {
                 cheapeastCost = cost;
@@ -36,8 +32,7 @@ public static class Day7
         // 168 fuel position of 5
         // Each move cost an additional 1 fuel...
         Console.WriteLine("-- Part 2 --");
-        var min = horizontalPositions.Min();
-        var max = horizontalPositions.Max();
+        var max = horizontalPositions?.Max() ?? 0;
         var cheapeastCost = int.MaxValue;
         var cheapestPosition = int.MaxValue;
         for (var i = 0; i < max; i++)
@@ -45,7 +40,7 @@ public static class Day7
             // e = 0
             // i = 2
             // 0 - 2 = (2*3)
-            var cost = horizontalPositions.Where(e => Math.Abs(e - i) > 0).Sum(e => Enumerable.Range(1, Math.Abs(e - i)).Sum());
+            var cost = horizontalPositions?.Where(e => Math.Abs(e - i) > 0).Sum(e => Enumerable.Range(1, Math.Abs(e - i)).Sum()) ?? 0;
             if (cost < cheapeastCost)
             {
                 cheapeastCost = cost;

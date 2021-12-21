@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace AoC2021;
 
@@ -8,17 +6,17 @@ public static class Day8
 {
     public class SegPair
     {
-        public string[] Input { get; set; }
-        public string[] Output { get; set; }
+        public string[]? Input { get; set; }
+        public string[]? Output { get; set; }
     }
 
-    public static List<SegPair> SegPairs { get; set; }
+    public static List<SegPair>? SegPairs { get; set; }
 
     private static Task PartOne()
     {
         Console.WriteLine("-- Part 1 --");
         // Count the occurences of any Output element length is equal to 1, 4, 7 or 8...
-        var easyCount = SegPairs.SelectMany(x => x.Output).Count(e => e.Length == 2 || e.Length == 3 || e.Length == 4 || e.Length == 7);
+        var easyCount = SegPairs!.SelectMany(x => x.Output).Count(e => e.Length == 2 || e.Length == 3 || e.Length == 4 || e.Length == 7);
         Console.WriteLine($"The count of easily determined 7 segment numbers in the output is: {easyCount}");
         return Task.CompletedTask;
     }
@@ -26,12 +24,13 @@ public static class Day8
     public static Dictionary<int, string> GetCodex(SegPair pair)
     {
         var codex = new Dictionary<int, string>();
-        codex[1] = pair.Input.Single(e => e.Length == 2);
-        codex[4] = pair.Input.Single(e => e.Length == 4);
-        codex[7] = pair.Input.Single(e => e.Length == 3);
-        codex[8] = pair.Input.Single(e => e.Length == 7);
-        var p235 = pair.Input.Where(e => e.Length == 5);
-        var p069 = pair.Input.Where(e => e.Length == 6);
+        var input = pair.Input!;
+        codex[1] = input.Single(e => e.Length == 2);
+        codex[4] = input.Single(e => e.Length == 4);
+        codex[7] = input.Single(e => e.Length == 3);
+        codex[8] = input.Single(e => e.Length == 7);
+        var p235 = input.Where(e => e.Length == 5);
+        var p069 = input.Where(e => e.Length == 6);
 
         var segments = new Dictionary<char, char>();
         // a = the difference between 1 and 7
@@ -77,12 +76,12 @@ public static class Day8
 
         var total = 0;
 
-        foreach (var pair in SegPairs) 
+        foreach (var pair in SegPairs!) 
         {
             var codex = GetCodex(pair);
 
             string numStr = string.Empty;
-            foreach (var outval in pair.Output)
+            foreach (var outval in pair.Output!)
             {
                 var outsort = string.Concat(outval.OrderBy(c => c));
                 var match = codex.FirstOrDefault(c => string.Concat(c.Value.OrderBy(v => v)) == outsort).Key;
@@ -98,7 +97,7 @@ public static class Day8
         return Task.CompletedTask;
     }
 
-    private static readonly Dictionary<char, string[]> SegmentCharacters = new Dictionary<char, string[]>()
+    private static readonly Dictionary<char, string[]> SegmentCharacters = new()
     {
         { '!',  new[] {"   ", "  |", "   "} },
         { ' ',  new[] {"   ", "   ", "   "} },

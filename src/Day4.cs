@@ -10,7 +10,7 @@ public static class Day4
     }
 
     private static IEnumerable<string> input = new List<string>();
-    private static int[] callNumbers;
+    private static int[]? callNumbers;
     private static List<int[,]> Boards = new List<int[,]>();
     private static List<int[,]> BoardMatches = new List<int[,]>();
     private static List<WinningBoard> winningBoards = new List<WinningBoard>();
@@ -35,7 +35,7 @@ public static class Day4
     private static Task ComputeWinningBoards()
     {
         Console.WriteLine("-- Part 1 --");
-        for (int i = 0; i < callNumbers.Length; i++) {
+        for (int i = 0; i < callNumbers!.Length; i++) {
             var calledNumber = callNumbers[i];
             foreach (var (board, index) in Boards.WithIndex())
             {

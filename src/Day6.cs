@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AoC2021;
+﻿namespace AoC2021;
 
 public static class Day6
 {
@@ -71,16 +67,16 @@ public static class Day6
     // 1 = 1
     // 1 = 2
 
-    public static List<LanternFish> lanternFish;
+    private static List<LanternFish>? lanternFish;
 
     public static void RunForXDays(int days)
     {
         for (int i = 0; i < days; i++)
         {
-            var iterationMax = lanternFish.Count;
+            var iterationMax = lanternFish?.Count ?? 0;
             for (int j = 0; j < iterationMax; j++)
             {
-                var l = lanternFish[j]!;
+                var l = lanternFish![j]!;
                 if (l.BirthTimer == 0)
                 {
                     l.BirthTimer = 6;
@@ -114,7 +110,7 @@ public static class Day6
         Console.WriteLine("-- Part 1 --");
         // Iterate for 80 days!
         RunForXDays(80);
-        Console.WriteLine($"Total Number of Latern Fish After 80 days: {lanternFish.Count}");
+        Console.WriteLine($"Total Number of Latern Fish After 80 days: {lanternFish?.Count ?? 0}");
         return Task.CompletedTask;
     }
 
